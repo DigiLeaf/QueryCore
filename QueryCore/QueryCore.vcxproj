@@ -125,19 +125,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FileCrawler.cpp" />
-    <ClCompile Include="InvertedIndex.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="QueryProcessor.cpp" />
-    <ClCompile Include="Ranker.cpp" />
-    <ClCompile Include="Tokenizer.cpp" />
+    <ClCompile Include="src\FileCrawler.cpp" />
+    <ClCompile Include="src\InvertedIndex.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\QueryProcessor.cpp" />
+    <ClCompile Include="src\Ranker.cpp" />
+    <ClCompile Include="src\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileCrawler.h" />
-    <ClInclude Include="InvertedIndex.h" />
-    <ClInclude Include="QueryProcessor.h" />
-    <ClInclude Include="Ranker.h" />
-    <ClInclude Include="Tokenizer.h" />
+    <ClInclude Include="Header Files\FileCrawler.h" />
+    <ClInclude Include="Header Files\InvertedIndex.h" />
+    <ClInclude Include="Header Files\QueryProcessor.h" />
+    <ClInclude Include="Header Files\Ranker.h" />
+    <ClInclude Include="Header Files\Tokenizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

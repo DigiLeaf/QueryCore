@@ -21,39 +21,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\FileCrawler.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FileCrawler.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\InvertedIndex.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Tokenizer.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="InvertedIndex.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\QueryProcessor.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="QueryProcessor.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Ranker.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Ranker.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="src\Tokenizer.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FileCrawler.h">
+    <ClInclude Include="Header Files\FileCrawler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Tokenizer.h">
+    <ClInclude Include="Header Files\InvertedIndex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InvertedIndex.h">
+    <ClInclude Include="Header Files\QueryProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="QueryProcessor.h">
+    <ClInclude Include="Header Files\Ranker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ranker.h">
+    <ClInclude Include="Header Files\Tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
