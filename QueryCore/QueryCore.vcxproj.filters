@@ -41,19 +41,19 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header Files\FileCrawler.h">
+    <ClInclude Include="include\FileCrawler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\InvertedIndex.h">
+    <ClInclude Include="include\InvertedIndex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\QueryProcessor.h">
+    <ClInclude Include="include\QueryProcessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Ranker.h">
+    <ClInclude Include="include\Ranker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Header Files\Tokenizer.h">
+    <ClInclude Include="include\Tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

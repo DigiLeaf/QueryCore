@@ -133,11 +133,11 @@
     <ClCompile Include="src\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Header Files\FileCrawler.h" />
-    <ClInclude Include="Header Files\InvertedIndex.h" />
-    <ClInclude Include="Header Files\QueryProcessor.h" />
-    <ClInclude Include="Header Files\Ranker.h" />
-    <ClInclude Include="Header Files\Tokenizer.h" />
+    <ClInclude Include="include\FileCrawler.h" />
+    <ClInclude Include="include\InvertedIndex.h" />
+    <ClInclude Include="include\QueryProcessor.h" />
+    <ClInclude Include="include\Ranker.h" />
+    <ClInclude Include="include\Tokenizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
