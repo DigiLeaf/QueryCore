@@ -139,6 +139,13 @@
     <ClInclude Include="include\Ranker.h" />
     <ClInclude Include="include\Tokenizer.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\datafile1.txt" />
+    <Text Include="data\datafile2.txt" />
+    <Text Include="data\datafile3.txt" />
+    <Text Include="data\subfolder\subdatafile.txt" />
+    <Text Include="data\subfolder\subdatafile2.md" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

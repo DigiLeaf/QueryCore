@@ -57,4 +57,11 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="data\datafile1.txt" />
+    <Text Include="data\datafile2.txt" />
+    <Text Include="data\datafile3.txt" />
+    <Text Include="data\subfolder\subdatafile.txt" />
+    <Text Include="data\subfolder\subdatafile2.md" />
+  </ItemGroup>
 </Project>
