@@ -1,1 +1,7 @@
 Here is a file in a subfolder.
+Also, here are a few numbers to test:
+12
+323
+3
+4
+18
