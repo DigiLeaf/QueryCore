@@ -4,6 +4,7 @@
 //Header Files
 #include "../include/FileCrawler.h"
 #include "../include/Tokenizer.h"
+#include "../include/InvertedIndex.h"
 
 void testFilecrawl() {
 	//relative filepath short because relative to where program is executed (project root)
@@ -17,6 +18,8 @@ void testFilecrawl() {
 		std::cout << file << std::endl;
 	}
 }
+
+
 void testFileToTokens(const std::string& filepath) {
 	Tokenizer Tokentest;
 
@@ -49,7 +52,24 @@ void testNormalize(const std::string& filepath) {
 	
 }
 
+void testBuildIndex() {
+	//crawl the data folder
+	std::string filepath = "data";
+	FileCrawler crawler(filepath);
+	crawler.addAllowedExtension(".txt");
+	crawler.addAllowedExtension(".md");
+	crawler.crawl();
+	const auto& files = crawler.getDiscoveredFiles();
 
+	//instantiate the class objects needed
+	Tokenizer indTokenizer;
+	InvertedIndex index;
+
+	//build the index
+	index.buildIndex(files, indTokenizer);
+	std::cout << "Index built successfully" << std::endl;
+
+}
 
 int mainMenu() {
 	int choice;
@@ -64,6 +84,7 @@ int mainMenu() {
 		std::cout << "2. Exit" << std::endl;
 		std::cout << "3. Test FileToTokens" << std::endl;
 		std::cout << "4. Test Normalize File" << std::endl;
+		std::cout << "5. Build Inverted Index" << std::endl;
 		std::cout << std::endl << "Enter an option choice:" << std::endl;
 
 		std::cin >> choice;
@@ -99,6 +120,15 @@ int mainMenu() {
 			std::cout << " Normalize Data Chosen" << std::endl;
 			std::cout << "#########################" << std::endl << std::endl;
 			testNormalize("data/subfolder/subdatafile.txt");
+			std::cout << "\n\n";
+			break;
+		case 5:
+			//Not normally accisble but need to test functionality
+			std::cout << "\n";
+			std::cout << "##############################" << std::endl;
+			std::cout << " Build Inverted Index Chosen" << std::endl;
+			std::cout << "##############################" << std::endl << std::endl;
+			testBuildIndex();
 			std::cout << "\n\n";
 			break;
 		default:

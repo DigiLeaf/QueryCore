@@ -6,7 +6,6 @@
 #include <fstream>
 #include <sstream>
 
-//constructor
 Tokenizer::Tokenizer() {
 
 };
