@@ -24,6 +24,7 @@ std::string Tokenizer::fileToStr(const std::string& filepath) {
 
 	buffer << file.rdbuf();
 
+	file.close();
 	return buffer.str();
 };
 

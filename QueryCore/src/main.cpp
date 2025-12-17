@@ -5,6 +5,7 @@
 #include "../include/FileCrawler.h"
 #include "../include/Tokenizer.h"
 #include "../include/InvertedIndex.h"
+#include "../include/QueryProcessor.h"
 
 void testFilecrawl() {
 	//relative filepath short because relative to where program is executed (project root)
@@ -20,8 +21,7 @@ void testFilecrawl() {
 }
 
 
-void testFileToTokens(const std::string& filepath) {
-	Tokenizer Tokentest;
+void testFileToTokens(const std::string& filepath, Tokenizer& Tokentest) {
 
 	std::string output = Tokentest.fileToStr(filepath);
 	std::vector<std::string> tokenized = Tokentest.tokenizeStr(output);
@@ -32,13 +32,11 @@ void testFileToTokens(const std::string& filepath) {
 	}
 }
 
-void testNormalize(const std::string& filepath) {
-	Tokenizer Tokentest;
-
+void testNormalize(const std::string& filepath, Tokenizer& Tokentest) {
 	std::string fileStr = Tokentest.fileToStr(filepath);
 	std::vector<std::string> tokenized = Tokentest.tokenizeStr(fileStr);
 	std::vector <std::string> normalWords;
-	for (const std::string word : tokenized) {
+	for (const std::string& word : tokenized) {
 		normalWords.push_back(Tokentest.callNormalize(word));
 
 	}
@@ -52,7 +50,7 @@ void testNormalize(const std::string& filepath) {
 	
 }
 
-void testBuildIndex() {
+void testBuildIndex(Tokenizer& indTokenizer, InvertedIndex& invIndex) {
 	//crawl the data folder
 	std::string filepath = "data";
 	FileCrawler crawler(filepath);
@@ -61,17 +59,55 @@ void testBuildIndex() {
 	crawler.crawl();
 	const auto& files = crawler.getDiscoveredFiles();
 
-	//instantiate the class objects needed
-	Tokenizer indTokenizer;
-	InvertedIndex index;
 
 	//build the index
-	index.buildIndex(files, indTokenizer);
+	invIndex.buildIndex(files, indTokenizer);
 	std::cout << "Index built successfully" << std::endl;
 
 }
 
-int mainMenu() {
+void testAndQuery(QueryProcessor& queryController) {
+
+	std::vector <std::string> returnedFiles;
+	std::string query;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	std::getline(std::cin, query);
+
+	returnedFiles = queryController.processQueryAND(query);
+	std::cout << "Here are the results for your Basic AND Query:" << std::endl;
+	if (returnedFiles.size() <= 0) {
+		std::cout << "Sorry, No files found for that search." << std::endl;
+	}
+	else {
+		for (int i = 0; i < returnedFiles.size(); i++) {
+			std::cout << returnedFiles[i] << std::endl;
+		}
+	}
+
+}
+
+void testOrQuery(QueryProcessor& queryController) {
+
+	std::vector <std::string> returnedFiles;
+	std::string query;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	std::getline(std::cin, query);
+
+	returnedFiles = queryController.processQueryOR(query);
+	std::cout << "Here are the results for your Basic OR Query:" << std::endl;
+	if (returnedFiles.size() <= 0) {
+		std::cout << "Sorry, No files found for that search." << std::endl;
+	}
+	else {
+		for (int i = 0; i < returnedFiles.size(); i++) {
+			std::cout << returnedFiles[i] << std::endl;
+		}
+	}
+}
+
+int mainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor& queryProcessor) {
 	int choice;
 	bool running = true;
 
@@ -85,10 +121,22 @@ int mainMenu() {
 		std::cout << "3. Test FileToTokens" << std::endl;
 		std::cout << "4. Test Normalize File" << std::endl;
 		std::cout << "5. Build Inverted Index" << std::endl;
-		std::cout << std::endl << "Enter an option choice:" << std::endl;
-
-		std::cin >> choice;
-
+		std::cout << "6. Search using And Query" << std::endl;
+		std::cout << "7. Search using Or Query" << std::endl;
+		
+		//user input validation
+		while (true) {
+			std::cout << std::endl << "Enter an option choice:" << std::endl;
+			if (std::cin >> choice) {
+				//successfully interger input
+				break;
+			}
+			else {
+				std::cout << "Please enter a valid choice.Please Try Again." << std::endl;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+		};
 
 		switch (choice) {
 		case 1:
@@ -110,7 +158,7 @@ int mainMenu() {
 			std::cout << "#########################" << std::endl;
 			std::cout << " Tokenize Data Chosen" << std::endl;
 			std::cout << "#########################" << std::endl << std::endl;
-			testFileToTokens("data/subfolder/subdatafile.txt");
+			testFileToTokens("data/subfolder/subdatafile.txt", tokenizer);
 			std::cout << "\n\n";
 			break;
 		case 4:
@@ -119,7 +167,7 @@ int mainMenu() {
 			std::cout << "#########################" << std::endl;
 			std::cout << " Normalize Data Chosen" << std::endl;
 			std::cout << "#########################" << std::endl << std::endl;
-			testNormalize("data/subfolder/subdatafile.txt");
+			testNormalize("data/subfolder/subdatafile.txt", tokenizer);
 			std::cout << "\n\n";
 			break;
 		case 5:
@@ -128,7 +176,28 @@ int mainMenu() {
 			std::cout << "##############################" << std::endl;
 			std::cout << " Build Inverted Index Chosen" << std::endl;
 			std::cout << "##############################" << std::endl << std::endl;
-			testBuildIndex();
+			testBuildIndex(tokenizer, invertedIndex);
+			std::cout << "\n\n";
+			break;
+
+		case 6:
+			std::cout << "\n";
+			std::cout << "################################" << std::endl;
+			std::cout << " Search using AND Query Chosen" << std::endl;
+			std::cout << "################################" << std::endl << std::endl;
+			std::cout << "What you would like to search for?" << std::endl;
+			testAndQuery(queryProcessor);
+			std::cout << "\n\n";
+			break;
+		case 7:
+			std::cout << "\n";
+			std::cout << "#########################" << std::endl;
+			std::cout << " Search using OR Query" << std::endl;
+			std::cout << "#########################" << std::endl << std::endl;
+
+			std::cout << "What you would like to search for?" << std::endl;
+
+			testOrQuery(queryProcessor);
 			std::cout << "\n\n";
 			break;
 		default:
@@ -141,8 +210,11 @@ int mainMenu() {
 
 
 int main() {
-
-	mainMenu();
+	Tokenizer tokenizer;
+	InvertedIndex invIndex;
+	QueryProcessor queryController(invIndex, tokenizer);
+	
+	mainMenu(tokenizer, invIndex, queryController);
 
 	std::cout << "we are exiting the main function. goodbye.";
 	return 0;

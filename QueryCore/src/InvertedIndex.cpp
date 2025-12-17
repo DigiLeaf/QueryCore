@@ -14,7 +14,7 @@ void InvertedIndex::addFile(const std::string& filepath){
 
 void InvertedIndex::addToken(const std::string& token, const std::string& filepath) {
 
-	tokenMap[token][filepath]++; //gets vector of files for the token and increments the value for the filepath or (creates it if missing and increments it)
+	tokenMap[token][filepath]++; //gets files for the token and increments the value for the filepath or (creates it if missing and increments it)
 
 };
 
