@@ -143,6 +143,12 @@
     <Text Include="data\datafile1.txt" />
     <Text Include="data\datafile2.txt" />
     <Text Include="data\datafile3.txt" />
+    <Text Include="data\Real Dataset\Common Sense by Thomas Paine.txt" />
+    <Text Include="data\Real Dataset\Evolution of the Steam Locomotive by George Nokes.txt" />
+    <Text Include="data\Real Dataset\Growth of the Steam Engine by Robert Thurston.txt" />
+    <Text Include="data\Real Dataset\Macbeth by William Shakespeare.txt" />
+    <Text Include="data\Real Dataset\The Life of Ludwig van Beethoven, Vol 1 by Alexander Thayer.txt" />
+    <Text Include="data\Real Dataset\The Temepest by William Shakespeare.txt" />
     <Text Include="data\subfolder\subdatafile.txt" />
     <Text Include="data\subfolder\subdatafile2.md" />
   </ItemGroup>

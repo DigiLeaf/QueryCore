@@ -48,16 +48,18 @@ std::string Tokenizer::Normalize(const std::string& input) {
 	std::string clean;
 	//iterates through word and normalizes it.
 	for (int j = 0; j < input.length(); j++) {
-		if (isalpha(input[j])) {
+		//Accounts for signed chars which will causes issues as isalpha/isdigit only accept unsigned chars
+		unsigned char character = input[j];
+		if (isalpha(character)) {
 			//Dont want to mutate the string i am normalizing
-			char c = input[j];
+			char c = character;
 			c = std::tolower(c);
 
 			clean.push_back(c);
 		}
-		else if (isdigit(input[j])) {
+		else if (isdigit(character)) {
 			//std::cout << "Number appended: " << input[j] << std::endl;
-			clean.push_back(input[j]);
+			clean.push_back(character);
 		}
 	}
 
