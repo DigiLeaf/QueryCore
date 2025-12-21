@@ -1,1 +1,3 @@
 Here are some words in datafile 1.
+steak steak steak steak
+pizza steak

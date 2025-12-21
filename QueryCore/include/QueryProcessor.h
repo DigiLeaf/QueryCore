@@ -16,4 +16,6 @@ public:
 	std::vector<std::string> processQueryOR(std::string queryToken);
 
 	std::vector<std::string> processQueryAND(std::string queryToken);
+
+	std::vector<std::string> processQuery(const std::string& rawQuery);
 };

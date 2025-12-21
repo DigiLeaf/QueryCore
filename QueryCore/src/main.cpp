@@ -107,6 +107,28 @@ void testOrQuery(QueryProcessor& queryController) {
 	}
 }
 
+
+void testqueryDispatcher(QueryProcessor& queryController) {
+
+	std::vector <std::string> returnedFiles;
+	std::string query;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+	std::getline(std::cin, query);
+
+	returnedFiles = queryController.processQuery(query);
+	std::cout << "Here are the results for your dispatched Query:" << std::endl;
+	if (returnedFiles.size() <= 0) {
+		std::cout << "Sorry, No files found for that search." << std::endl;
+	}
+	else {
+		for (int i = 0; i < returnedFiles.size(); i++) {
+			std::cout << returnedFiles[i] << std::endl;
+		}
+	}
+}
+
+
 int mainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor& queryProcessor) {
 	int choice;
 	bool running = true;
@@ -123,6 +145,8 @@ int mainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor&
 		std::cout << "5. Build Inverted Index" << std::endl;
 		std::cout << "6. Search using And Query" << std::endl;
 		std::cout << "7. Search using Or Query" << std::endl;
+		std::cout << "8. Search using Query Dispatcher" << std::endl;
+
 		
 		//user input validation
 		while (true) {
@@ -198,6 +222,17 @@ int mainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor&
 			std::cout << "What you would like to search for?" << std::endl;
 
 			testOrQuery(queryProcessor);
+			std::cout << "\n\n";
+			break;
+		case 8:
+			std::cout << "\n";
+			std::cout << "################################" << std::endl;
+			std::cout << " Search using Query Dispatcher" << std::endl;
+			std::cout << "################################" << std::endl << std::endl;
+
+			std::cout << "What you would like to search for?" << std::endl;
+
+			testqueryDispatcher(queryProcessor);
 			std::cout << "\n\n";
 			break;
 		default:
