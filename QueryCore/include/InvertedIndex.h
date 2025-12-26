@@ -27,4 +27,10 @@ public:
 
 	//catalogs all the words/tokens in data directory's files
 	void buildIndex(const std::vector<std::string>& filepaths, Tokenizer& tokenizer);
+
+	double getIDF(const std::string& token) const;
+
+	double getTF(const std::string& token, const std::string& filepath);
+
+	double getTFIDF(const std::string& token, const std::string& filepath);
 };

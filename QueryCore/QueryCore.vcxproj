@@ -129,14 +129,12 @@
     <ClCompile Include="src\InvertedIndex.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\QueryProcessor.cpp" />
-    <ClCompile Include="src\Ranker.cpp" />
     <ClCompile Include="src\Tokenizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\FileCrawler.h" />
     <ClInclude Include="include\InvertedIndex.h" />
     <ClInclude Include="include\QueryProcessor.h" />
-    <ClInclude Include="include\Ranker.h" />
     <ClInclude Include="include\Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>

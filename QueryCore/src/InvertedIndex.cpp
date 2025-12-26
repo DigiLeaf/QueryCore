@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-
+#include <iostream>
 InvertedIndex::InvertedIndex() {
 };
 
@@ -38,12 +38,13 @@ void InvertedIndex::addToken(const std::string& token, const std::string& filepa
 
 	 //loop through all files
 	 for (const std::string& filepath : filepaths) {
-
 		 //convert file to a string
 		 std::string contents = tokenizer.fileToStr(filepath);
 		 if (contents.empty()) {
 			 continue;
 		 }
+
+		 addFile(filepath);
 
 		 //tokenize the string
 		 std::vector<std::string> tokens = tokenizer.tokenizeStr(contents);
@@ -62,4 +63,30 @@ void InvertedIndex::addToken(const std::string& token, const std::string& filepa
 
 		 }
 	 }
+ }
+
+ double InvertedIndex::getIDF(const std::string& token) const {
+	 int N = fileList.size();
+	 auto iterator = tokenMap.find(token);
+	 int df = (iterator != tokenMap.end()) ? iterator->second.size() : 0;
+
+	 //std::cout << "IDF debug: N=" << N << " df=" << df << " token=" << token << std::endl;
+
+	 return std::log(static_cast<double> (N)  / (1 + df));
+ };
+
+ double InvertedIndex::getTF(const std::string& token, const std::string& filepath) {
+	 auto tokenIt = tokenMap.find(token);
+	 if (tokenIt == tokenMap.end()) return 0.0;
+
+	 auto fileIt = tokenIt->second.find(filepath);
+	 if (fileIt == tokenIt->second.end()) return 0.0;
+	 return static_cast<double>(fileIt->second);
+ };
+
+ double InvertedIndex::getTFIDF(const std::string& token, const std::string& filepath) {
+	double tf = getTF(token, filepath);
+	double idf = getIDF(token);
+
+	return tf * idf;
  }

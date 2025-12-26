@@ -11,13 +11,14 @@ QueryProcessor::QueryProcessor(InvertedIndex& indexRef, Tokenizer& tokenRef)
     : invIndex(indexRef), tokenizer(tokenRef) {
 };
 
-std::vector<std::string> QueryProcessor::processQueryOR(std::string queryToken) {
+std::vector<std::pair<std::string, double>> QueryProcessor::processQueryOR(std::string queryToken) {
     std::cout << "Process OR auto chosen" << std::endl;
     std::vector<std::string> tokenQuery;
     //tokenize the query
     tokenQuery = tokenizer.tokenizeStr(queryToken);
 
-    std::unordered_map<std::string, int> frequencyMap;
+    //std::unordered_map<std::string, int> frequencyMap;
+    std::unordered_map<std::string, double> frequencyMap;
 
 
     for (auto& word : tokenQuery) {
@@ -33,38 +34,56 @@ std::vector<std::string> QueryProcessor::processQueryOR(std::string queryToken) 
         for (const auto& entry : fileMap) {
             //implementing term frequency for sorting
             const std::string& filepath = entry.first;
-            int count = entry.second;
-            frequencyMap[filepath] += count;
+            double tfidf = invIndex.getTFIDF(queryWord, filepath);
+            frequencyMap[filepath] += tfidf;
 
         }
     }
 
-    std::vector<std::pair<std::string, int>> scoredResults;
+    std::vector<std::pair<std::string, double>> scoredResults;
 
     for (const auto& entry : frequencyMap) {
         scoredResults.push_back(entry);
     }
-    //sort in descending frequency
+    if (scoredResults.empty()) return{};
+    //sort by descending TF-IDF score
     std::sort(scoredResults.begin(), scoredResults.end(),
         [](const auto& a, const auto& b) { return a.second > b.second; });
 
-    //loop to convert from set to vector
-    std::vector<std::string> returnVector;
+    //normalization of the scores for user understanding
+    //all values will be between 0 <= score <= 1
+    //then convert to percentage
+    double maxScore = scoredResults[0].second;
+    if (maxScore == 0) return {};
+    for (auto& relscore : scoredResults) {
+        double normalizedScore = (relscore.second / maxScore) * 100;
+        relscore.second = normalizedScore;
+
+    }
+
+
+    //loop to convert from set to vector & limit to top 10 relevant results
+    std::vector<std::pair<std::string,double>> returnVector;
+    int limit = 0;
     for (const auto& result : scoredResults) {
-        returnVector.push_back(result.first);
+        if (limit == 10) {
+            break;
+        }
+        returnVector.push_back(result);
+        limit++;
     }
 
     return returnVector;
 };
 
-std::vector<std::string> QueryProcessor::processQueryAND(std::string queryToken) {
+std::vector<std::pair<std::string,double>> QueryProcessor::processQueryAND(std::string queryToken) {
     std::cout << "Process AND auto chosen" << std::endl;
     std::vector<std::string> tokenQuery;
     //tokenize the query
     tokenQuery = tokenizer.tokenizeStr(queryToken);
 
 
-    std::unordered_map<std::string, int> frequencyMap;
+    std::unordered_map<std::string, double> frequencyMap;
 
     bool isFirstToken = true;
     for (auto& word : tokenQuery) {
@@ -84,8 +103,8 @@ std::vector<std::string> QueryProcessor::processQueryAND(std::string queryToken)
             for (const auto& entry : fileMapFirstToken) {
                 //implemeting term frequency for sorting
                 const std::string& filepath = entry.first;
-                int count = entry.second;
-                frequencyMap[filepath] += count;
+                double Firsttfidf = invIndex.getTFIDF(queryWord, filepath);
+                frequencyMap[filepath] += Firsttfidf;
             }
             isFirstToken = false;
         }
@@ -100,7 +119,8 @@ std::vector<std::string> QueryProcessor::processQueryAND(std::string queryToken)
                     iterator = frequencyMap.erase(iterator);
                 }
                 else {
-                    iterator->second += fileMap.at(filepath);
+                    double tfidf = invIndex.getTFIDF(queryWord, filepath);
+                    iterator->second += tfidf;
                     iterator++;
                 }
             }
@@ -108,49 +128,71 @@ std::vector<std::string> QueryProcessor::processQueryAND(std::string queryToken)
 
     }
 
-    std::vector<std::pair<std::string, int>> scoredResults;
+    std::vector<std::pair<std::string, double>> scoredResults;
 
     for (const auto& entry : frequencyMap) {
         scoredResults.push_back(entry);
     }
+    if (scoredResults.empty()) return {};
     //sort in descending frequency
     std::sort(scoredResults.begin(), scoredResults.end(),
         [](const auto& a, const auto& b) { return a.second > b.second; });
 
 
-    //loop to convert from set to vector
-    std::vector<std::string> returnVector;
+    //normalization of the scores for user understanding
+    //all values will be between 0 <= score <= 1
+    //then convert to percentage
+    double maxScore = scoredResults[0].second;
+    if (maxScore == 0) return {};
+    for (auto& relscore : scoredResults) {
+        relscore.second = relscore.second / maxScore;
+    }
+
+
+    //loop to convert from set to vector & limit to top 10 relevant results
+    std::vector<std::pair<std::string,double>> returnVector;
+    int limit = 0;
     for (const auto& result : scoredResults) {
-        returnVector.push_back(result.first);
+        if (limit == 10) {
+            break;
+        }
+        returnVector.push_back(result);
+        limit++;
     }
 
     return returnVector;
 };
 
 
-std::vector<std::string> QueryProcessor::processQuery(const std::string& rawQuery) {
+std::vector<std::pair<std::string,double>> QueryProcessor::processQuery(const std::string& rawQuery) {
     std::vector<std::string> tokenQuery;
     //tokenize the query
     tokenQuery = tokenizer.tokenizeStr(rawQuery);
 
-
+   
     //std::cout << "Tokens in query: " << std::endl;
     //for (const auto& t : tokenQuery) std::cout << "[" << t << "] ";
     //std::cout << std::endl;
 
+    bool sawAND = false;
+    bool sawOR = false;
     //"parse" the query and determine which process function needs to be called
     std::string detectedOperator = "OR"; //default
     for (const std::string& word : tokenQuery) {
         std::string normWord = tokenizer.callNormalize(word);
         if (normWord == "or")
         {
+            sawOR = true;
             detectedOperator = "OR";
-            break;
         }
         if (normWord == "and")
         {
+            sawAND = true;
             detectedOperator = "AND";
-            break;
+        }
+        if (sawAND && sawOR) {
+            std::cout << "Error: mixed AND/OR queries are not supported. Please use only one operator per query." << std::endl;
+            return {};
         }
     }
     //rebuilding the query without operator token 

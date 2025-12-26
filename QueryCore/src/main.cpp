@@ -68,7 +68,7 @@ void testBuildIndex(Tokenizer& indTokenizer, InvertedIndex& invIndex) {
 
 void testAndQuery(QueryProcessor& queryController) {
 
-	std::vector <std::string> returnedFiles;
+	std::vector <std::pair<std::string,double>> returnedFiles;
 	std::string query;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -81,7 +81,7 @@ void testAndQuery(QueryProcessor& queryController) {
 	}
 	else {
 		for (int i = 0; i < returnedFiles.size(); i++) {
-			std::cout << returnedFiles[i] << std::endl;
+			std::cout << returnedFiles[i].first << std::endl;
 		}
 	}
 
@@ -89,7 +89,7 @@ void testAndQuery(QueryProcessor& queryController) {
 
 void testOrQuery(QueryProcessor& queryController) {
 
-	std::vector <std::string> returnedFiles;
+	std::vector <std::pair<std::string, double>> returnedFiles;
 	std::string query;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -102,7 +102,7 @@ void testOrQuery(QueryProcessor& queryController) {
 	}
 	else {
 		for (int i = 0; i < returnedFiles.size(); i++) {
-			std::cout << returnedFiles[i] << std::endl;
+			std::cout << returnedFiles[i].first << std::endl;
 		}
 	}
 }
@@ -110,7 +110,7 @@ void testOrQuery(QueryProcessor& queryController) {
 
 void testqueryDispatcher(QueryProcessor& queryController) {
 
-	std::vector <std::string> returnedFiles;
+	std::vector <std::pair<std::string, double>> returnedFiles;
 	std::string query;
 	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
@@ -123,7 +123,7 @@ void testqueryDispatcher(QueryProcessor& queryController) {
 	}
 	else {
 		for (int i = 0; i < returnedFiles.size(); i++) {
-			std::cout << returnedFiles[i] << std::endl;
+			std::cout << returnedFiles[i].first << " Relevance Score:" << returnedFiles[i].second << "%" <<std::endl;
 		}
 	}
 }

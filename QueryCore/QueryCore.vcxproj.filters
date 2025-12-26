@@ -33,9 +33,6 @@
     <ClCompile Include="src\QueryProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Ranker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -48,9 +45,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\QueryProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Ranker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\Tokenizer.h">

@@ -13,9 +13,9 @@ private:
 public:
 	QueryProcessor(InvertedIndex& indexRef, Tokenizer& tokenRef);
 
-	std::vector<std::string> processQueryOR(std::string queryToken);
+	std::vector<std::pair<std::string,double>> processQueryOR(std::string queryToken);
 
-	std::vector<std::string> processQueryAND(std::string queryToken);
+	std::vector<std::pair<std::string,double>> processQueryAND(std::string queryToken);
 
-	std::vector<std::string> processQuery(const std::string& rawQuery);
+	std::vector<std::pair<std::string,double>> processQuery(const std::string& rawQuery);
 };
