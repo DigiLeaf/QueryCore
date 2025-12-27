@@ -27,12 +27,12 @@ These files are used solely for testing and demonstrating the search engine.
 2. An inverted index is built, mapping tokens to the documents in which they appear.
 3. The user is presented with a simple CLI menu.
 4. When a search query is entered:
- - The query is tokenized and normalized.
- - Boolean Logic (AND / OR) is applied)
- - Documents are ranked using TF-IDF scoring
+    - The query is tokenized and normalized.
+    - Boolean Logic (AND / OR) is applied)
+    - Documents are ranked using TF-IDF scoring
 5. Results are displayed in a fomratted table showing:
- - File name
- - Relevance Score
+    - File name
+    - Relevance Score
 6. The user may run additonal queries or exit the program.
 
 ## Query Support
