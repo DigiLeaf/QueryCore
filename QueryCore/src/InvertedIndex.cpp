@@ -1,4 +1,3 @@
-
 #include "../include/InvertedIndex.h"
 
 #include <string>
@@ -20,7 +19,7 @@ void InvertedIndex::addToken(const std::string& token, const std::string& filepa
 
   const std::unordered_map<std::string,int>& InvertedIndex::getFilesForToken(const std::string & token) const {
 	
-	  //need a safe return value if nothing is found for the token
+	//need a safe return value if nothing is found for the token
 	static const std::unordered_map<std::string, int> empty;
 
 	auto iterator = tokenMap.find(token);
@@ -69,8 +68,6 @@ void InvertedIndex::addToken(const std::string& token, const std::string& filepa
 	 int N = fileList.size();
 	 auto iterator = tokenMap.find(token);
 	 int df = (iterator != tokenMap.end()) ? iterator->second.size() : 0;
-
-	 //std::cout << "IDF debug: N=" << N << " df=" << df << " token=" << token << std::endl;
 
 	 return std::log(static_cast<double> (N)  / (1 + df));
  };

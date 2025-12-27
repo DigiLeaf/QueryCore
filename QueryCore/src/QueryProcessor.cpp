@@ -167,7 +167,6 @@ std::vector<std::pair<std::string,double>> QueryProcessor::processQuery(const st
     //tokenize the query
     tokenQuery = tokenizer.tokenizeStr(rawQuery);
 
-   
     //std::cout << "Tokens in query: " << std::endl;
     //for (const auto& t : tokenQuery) std::cout << "[" << t << "] ";
     //std::cout << std::endl;

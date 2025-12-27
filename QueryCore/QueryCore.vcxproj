@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -138,9 +138,18 @@
     <ClInclude Include="include\Tokenizer.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="data\datafile1.txt" />
-    <Text Include="data\datafile2.txt" />
-    <Text Include="data\datafile3.txt" />
+    <Text Include="data\An Account of Egypt.txt" />
+    <Text Include="data\Battle Honours of the British Army.txt" />
+    <Text Include="data\Common Sense.txt" />
+    <Text Include="data\Ely Cathedral.txt" />
+    <Text Include="data\Evolution of the Steam Locomotive.txt" />
+    <Text Include="data\Fifty years in Wall Street.txt" />
+    <Text Include="data\Growth of the Steam Engine.txt" />
+    <Text Include="data\History of Botany.txt" />
+    <Text Include="data\History of Indian and Easter Architecture.txt" />
+    <Text Include="data\Macbeth.txt" />
+    <Text Include="data\Myths of the Cherokee.txt" />
+    <Text Include="data\Origin of Cultivated Plants.txt" />
     <Text Include="data\Real Dataset\An Account of Egypt.txt" />
     <Text Include="data\Real Dataset\Battle Honours of the British Army.txt" />
     <Text Include="data\Real Dataset\Common Sense.txt" />
@@ -156,8 +165,9 @@
     <Text Include="data\Real Dataset\The French Revolution A History.txt" />
     <Text Include="data\Real Dataset\The Life of Ludwig van Beethoven, Vol 1.txt" />
     <Text Include="data\Real Dataset\The Temepest.txt" />
-    <Text Include="data\subfolder\subdatafile.txt" />
-    <Text Include="data\subfolder\subdatafile2.md" />
+    <Text Include="data\The French Revolution A History.txt" />
+    <Text Include="data\The Life of Ludwig van Beethoven, Vol 1.txt" />
+    <Text Include="data\The Temepest.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

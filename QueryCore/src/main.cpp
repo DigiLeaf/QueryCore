@@ -339,7 +339,7 @@ int userMainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProces
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
 			std::getline(std::cin, searchQuery);
-			//empty query check
+			//empty user query check
 			if (searchQuery.empty()) {
 				std::cout << "No query entered. Please try again.\n";
 				break;
