@@ -63,5 +63,5 @@ The program builds the index at startup.
 ### Notes
  - No external libraries or dependencies are required
  - Uses only the C++ standard Library
- -Although developed with Visual Studio, the code only uses standard C++ and
+ - Although developed with Visual Studio, the code only uses standard C++ and
   should compile with other mondern C++ compilers with minimal changes
