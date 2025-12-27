@@ -12,7 +12,6 @@ QueryProcessor::QueryProcessor(InvertedIndex& indexRef, Tokenizer& tokenRef)
 };
 
 std::vector<std::pair<std::string, double>> QueryProcessor::processQueryOR(std::string queryToken) {
-    std::cout << "Process OR auto chosen" << std::endl;
     std::vector<std::string> tokenQuery;
     //tokenize the query
     tokenQuery = tokenizer.tokenizeStr(queryToken);
@@ -61,7 +60,6 @@ std::vector<std::pair<std::string, double>> QueryProcessor::processQueryOR(std::
 
     }
 
-
     //loop to convert from set to vector & limit to top 10 relevant results
     std::vector<std::pair<std::string,double>> returnVector;
     int limit = 0;
@@ -77,7 +75,6 @@ std::vector<std::pair<std::string, double>> QueryProcessor::processQueryOR(std::
 };
 
 std::vector<std::pair<std::string,double>> QueryProcessor::processQueryAND(std::string queryToken) {
-    std::cout << "Process AND auto chosen" << std::endl;
     std::vector<std::string> tokenQuery;
     //tokenize the query
     tokenQuery = tokenizer.tokenizeStr(queryToken);
@@ -145,9 +142,10 @@ std::vector<std::pair<std::string,double>> QueryProcessor::processQueryAND(std::
     double maxScore = scoredResults[0].second;
     if (maxScore == 0) return {};
     for (auto& relscore : scoredResults) {
-        relscore.second = relscore.second / maxScore;
-    }
+        double normalizedScore = (relscore.second / maxScore) * 100;
+        relscore.second = normalizedScore;
 
+    }
 
     //loop to convert from set to vector & limit to top 10 relevant results
     std::vector<std::pair<std::string,double>> returnVector;

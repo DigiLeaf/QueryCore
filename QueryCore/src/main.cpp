@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <filesystem>
+#include <iomanip>
 
 //Header Files
 #include "../include/FileCrawler.h"
@@ -7,6 +9,7 @@
 #include "../include/InvertedIndex.h"
 #include "../include/QueryProcessor.h"
 
+/*
 void testFilecrawl() {
 	//relative filepath short because relative to where program is executed (project root)
 	std::string filepath = "data";
@@ -19,7 +22,6 @@ void testFilecrawl() {
 		std::cout << file << std::endl;
 	}
 }
-
 
 void testFileToTokens(const std::string& filepath, Tokenizer& Tokentest) {
 
@@ -122,14 +124,36 @@ void testqueryDispatcher(QueryProcessor& queryController) {
 		std::cout << "Sorry, No files found for that search." << std::endl;
 	}
 	else {
-		for (int i = 0; i < returnedFiles.size(); i++) {
-			std::cout << returnedFiles[i].first << " Relevance Score:" << returnedFiles[i].second << "%" <<std::endl;
+		const int filenameWidth = 40;
+		const int relevanceWidth = 10;
+
+		//output table header
+		std::cout << std::left << std::setw(filenameWidth) << "File Name"
+			<< std::right << std::setw(relevanceWidth) << "Relevance" << std::endl;
+		std::cout << std::string(filenameWidth + relevanceWidth, '-') << std::endl;
+
+
+
+		for (const auto& entry : returnedFiles) {
+			std::string filename = std::filesystem::path(entry.first).filename().string();
+
+			//truncate filename if longer than table width
+			if (filename.length() > filenameWidth - 3) {
+				filename = filename.substr(0, filenameWidth - 3) + "...";
+			}
+
+			double score = entry.second;
+
+			std::cout << std::left << std::setw(filenameWidth) << filename
+				<< std::right << std::setw(relevanceWidth) << std::fixed << std::setprecision(1)
+				<< score << "%" << std::endl;
 		}
+
 	}
 }
-
-
-int mainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor& queryProcessor) {
+*/
+/*
+int devMainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor& queryProcessor) {
 	int choice;
 	bool running = true;
 
@@ -241,15 +265,121 @@ int mainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor&
 		}
 	} while (running);
 	
+}*/
+
+void queryDisplay(std::vector<std::pair<std::string, double>> returnedFiles) {
+	if (returnedFiles.size() <= 0) {
+		std::cout << "Sorry, No files found for that search." << std::endl;
+	}
+	else {
+		const int filenameWidth = 40;
+		const int relevanceWidth = 10;
+
+		//output table header
+		std::cout << std::left << std::setw(filenameWidth) << "File Name"
+			<< std::right << std::setw(relevanceWidth) << "Relevance" << std::endl;
+		std::cout << std::string(filenameWidth + relevanceWidth, '-') << std::endl;
+
+
+
+		for (const auto& entry : returnedFiles) {
+			std::string filename = std::filesystem::path(entry.first).filename().string();
+
+			//truncate filename if longer than table width
+			if (filename.length() > filenameWidth - 3) {
+				filename = filename.substr(0, filenameWidth - 3) + "...";
+			}
+
+			double score = entry.second;
+
+			std::cout << std::left << std::setw(filenameWidth) << filename
+				<< std::right << std::setw(relevanceWidth-1) << std::fixed << std::setprecision(1)
+				<< score << "%" << std::endl;
+		}
+
+	}
 }
 
+int userMainMenu(Tokenizer& tokenizer, InvertedIndex& invertedIndex, QueryProcessor& queryProcessor) {
+	int choice;
+	bool running = true;
+	do {
+		std::cout << "#############" << std::endl;
+		std::cout << "# QueryCore #" << std::endl;
+		std::cout << "#############" << std::endl << std::endl;;
+
+		std::cout << "1. Search Data Archive" << std::endl;
+		std::cout << "2. Exit" << std::endl;
+
+
+		//user input validation
+		while (true) {
+			std::cout << std::endl << "Enter an option choice:" << std::endl;
+			if (std::cin >> choice) {
+				//successfully interger input
+				break;
+			}
+			else {
+				std::cout << "Please enter a valid choice.Please Try Again." << std::endl;
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+		};
+
+		std::string searchQuery;
+
+		switch (choice) {
+		case 1: 
+			std::cout << "\n";
+			std::cout << "############################" << std::endl;
+			std::cout << "    Search Data Archive       " << std::endl;
+			std::cout << "############################" << std::endl << std::endl;
+
+			std::cout << "What you would like to search for?" << std::endl;
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+			std::getline(std::cin, searchQuery);
+			//empty query check
+			if (searchQuery.empty()) {
+				std::cout << "No query entered. Please try again.\n";
+				break;
+			}
+			queryDisplay(queryProcessor.processQuery(searchQuery));
+
+			std::cout << "\n\n";
+			break;
+		case 2:
+			running = false;
+			std::cout << "Exiting the program..." << std::endl;
+			return 0;
+		default:
+			std::cout << "Please enter a valid choice. Please Try Again." << std::endl;
+			break;
+		}
+	} while (running);
+
+}
 
 int main() {
 	Tokenizer tokenizer;
 	InvertedIndex invIndex;
 	QueryProcessor queryController(invIndex, tokenizer);
 	
-	mainMenu(tokenizer, invIndex, queryController);
+
+	//Inverted index must be built before the user can search the data folder
+	//crawl the data folder
+	std::string filepath = "data";
+	FileCrawler crawler(filepath);
+	crawler.addAllowedExtension(".txt");
+	crawler.addAllowedExtension(".md");
+	crawler.crawl();
+	const auto& files = crawler.getDiscoveredFiles();
+	//build inverted index
+	invIndex.buildIndex(files, tokenizer);
+
+
+	//devMainMenu(tokenizer, invIndex, queryController);
+	userMainMenu(tokenizer, invIndex, queryController);
 
 	std::cout << "we are exiting the main function. goodbye.";
 	return 0;
